@@ -2,6 +2,20 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+  font-family: 'tcbregular';
+  src: url('/src/assets/fonts/TCCB-regular.TTF')
+}
+
+@font-face {
+  font-family: 'tcbnormal';
+  src: url('/src/assets/fonts/TCCM-Normal.TTF')
+}
+@font-face {
+  font-family: 'tcbbold';
+  src: url('/src/assets/fonts/TwCenMTCondensedBold.ttf')
+}
+
 html {
   scroll-behavior: smooth;
 }
