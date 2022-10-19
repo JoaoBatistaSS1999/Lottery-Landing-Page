@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
-import { ethers } from "ethers";
+import Web3Modal from "web3modal";
+import { ethers, providers } from "ethers";
 
 import { shortAddress } from "../../utils";
 import { AppContext } from "../../context/appContext";
@@ -12,8 +13,9 @@ import twitter from "../../assets/socialIcons/twitter.png";
 import telegram from "../../assets/socialIcons/telegram.png";
 
 const Header = () => {
-	const [shortUserAddress, setShortUserAddress] = useState();
-	const { userAddress, setUserAddress, setSigner } = useContext(AppContext); // no auto-completion?
+	const [account, setAccount] = useState(" ");
+	const [walletConnected, setWalletConnected] = useState(false);
+	const [web3Modal, setWeb3Modal] = useState(null);
 	const [isMobileMenu, setMobileMenu] = useState(false);
 
 	const handleMobileMenu = () => {
@@ -21,55 +23,54 @@ const Header = () => {
 	};
 
 	useEffect(() => {
-		if (window.ethereum === undefined) return;
-		const provider = new ethers.providers.Web3Provider(window.ethereum);
+		const providerOptions = {};
 
-		/**Get account on page load */
-		const getAccounts = async () => {
-			try {
-				const accounts = await provider.listAccounts();
-				if (accounts[0] === undefined) return;
-				setUserAddress(accounts[0]);
-				const signer = provider.getSigner();
-				setSigner(signer);
+		const newWeb3Modal = new Web3Modal({
+			cacheProvider: true,
+			network: "mumbai",
+			providerOptions,
+		});
 
-				console.log("header getaccounts signer =>", signer);
-				setShortUserAddress(shortAddress(accounts[0]));
-			} catch (error) {
-				console.log("get accounts failed");
-			}
-		};
-		getAccounts();
-
-		/**Get the new account when the user changes */
-		window.ethereum.on("accountsChanged", handleAccountsChanged);
-		function handleAccountsChanged(accounts) {
-			if (accounts.length === 0) {
-				console.log("This account is not connected");
-			} else if (accounts[0] !== userAddress) {
-				setUserAddress(accounts[0]);
-				console.log("accounts changed", accounts[0]);
-				setShortUserAddress(shortAddress(accounts[0]));
-
-				const signer = provider.getSigner();
-				console.log("header getaccounts signer =>", signer);
-			}
-		}
+		setWeb3Modal(newWeb3Modal);
 	}, []);
 
-	const connectWallet = async () => {
-		if (!window.ethereum) return console.log("install metamask!");
-
-		const provider = new ethers.providers.Web3Provider(window.ethereum);
-		try {
-			const accounts = await provider.send("eth_requestAccounts", []);
-			const signer = provider.getSigner();
-			console.log("header signer", signer);
-			setUserAddress(accounts[0]);
-		} catch (error) {
-			window.alert("wallet connection denied");
+	useEffect(() => {
+		// connect automatically and without a popup if user is already connected
+		if (web3Modal && web3Modal.cachedProvider) {
+			connectWallet();
 		}
+	}, [web3Modal]);
+
+	async function addListeners(web3ModalProvider) {
+		web3ModalProvider.on("accountsChanged", (accounts) => {
+			connectWallet();
+		});
+
+		// Subscribe to chainId change
+		web3ModalProvider.on("chainChanged", (chainId) => {
+			connectWallet();
+		});
+	}
+
+	const disconnectWallet = async () => {
+		await web3Modal.clearCachedProvider();
+
+		// handleClose();
+		setWalletConnected(false);
+		// removeAccount();
 	};
+	async function connectWallet() {
+		const provider = await web3Modal.connect();
+		addListeners(provider);
+		const ethersProvider = new providers.Web3Provider(provider);
+		const userAddress = await ethersProvider.getSigner().getAddress();
+		const userBalance = await ethersProvider.getBalance(userAddress);
+		// console.log("userBalance", ethers.utils.formatUnits(userBalance));
+		setAccount(userAddress);
+		setWalletConnected(true);
+
+		// console.log("userAccount", userAccount);
+	}
 
 	return (
 		<header className="w-full flex bg-[#000000] text-white font-bold justify-center sticky top-0">
@@ -93,10 +94,24 @@ const Header = () => {
 							Docs
 						</li>
 					</ul>
-
-					<button className="flex gap-1 font-tcbnormal  justify-center items-center border-2 border-[#2AD5FB] text-[#2AD5FB] w-[195px] h-[41px] rounded-[21px] ">
-						<img src={link} alt="chain" className="w-5 h-5" /> Connect Wallet
-					</button>
+					{walletConnected ? (
+						<button
+							onClick={disconnectWallet}
+							className="flex gap-1 font-tcbnormal  justify-center items-center border-2 border-[#2AD5FB] text-[#2AD5FB] w-[195px] h-[41px] rounded-[21px] "
+						>
+							<img src={link} alt="chain" className="w-5 h-5" />
+							{shortAddress(account)}
+						</button>
+					) : (
+						<button
+							onClick={() => {
+								connectWallet();
+							}}
+							className="flex gap-1 font-tcbnormal  justify-center items-center border-2 border-[#2AD5FB] text-[#2AD5FB] w-[195px] h-[41px] rounded-[21px] "
+						>
+							<img src={link} alt="chain" className="w-5 h-5" /> Connect Wallet
+						</button>
+					)}
 				</div>
 
 				{/* {mobile nav} */}
@@ -143,9 +158,24 @@ const Header = () => {
 					</div>
 
 					<div className="w-full flex justify-center px-3 py-5">
-						<button className="flex gap-1 justify-center items-center border-2 border-[#2AD5FB] text-[#2AD5FB] w-[200px] h-[41px] rounded-[21px] ">
-							<img src={link} alt="chain" className="w-5 h-5" /> Connect Wallet
-						</button>
+						{walletConnected ? (
+							<button
+								onClick={disconnectWallet}
+								className="flex gap-1 justify-center items-center border-2 border-[#2AD5FB] text-[#2AD5FB] w-[200px] h-[41px] rounded-[21px] "
+							>
+								<img src={link} alt="chain" className="w-5 h-5" />{" "}
+								{shortAddress(account)}
+							</button>
+						) : (
+							<button
+								onClick={() => {
+									connectWallet();
+								}}
+								className="flex gap-1 justify-center items-center border-2 border-[#2AD5FB] text-[#2AD5FB] w-[200px] h-[41px] rounded-[21px] "
+							>
+								<img src={link} alt="chain" className="w-5 h-5" /> Connect Wallet
+							</button>
+						)}
 					</div>
 					<div className="flex justify-center gap-8 p-3">
 						<img src={telegram} alt="telegram" className="h-10" />
