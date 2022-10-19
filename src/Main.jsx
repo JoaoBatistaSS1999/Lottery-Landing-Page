@@ -6,10 +6,10 @@ const Main = () => {
 	const { pathname } = location;
 	const splitLocation = pathname.split("/");
 	return (
-		<section className="w-full flex justify-center bg-neutral-900">
+		<section className="w-full flex justify-center bg-[#010b18]">
 			<div className="max-w-screen-lg w-full flex justify-center">
 				<div className="flex flex-col items-center w-full">
-					<nav className="lg:ml-14 bg-neutral-900 max-w-screen-xl w-full flex justify-center lg:justify-start">
+					<nav className="lg:ml-14 bg-[#010b18] max-w-screen-xl w-full flex justify-center lg:justify-start">
 						<ul className="flex gap-1 font-bold text-white">
 							<Link to="/" className="link">
 								<li
