@@ -7,8 +7,8 @@ import info from "../assets/utility/info.svg";
 
 const Krstm = () => {
 	return (
-		<div className="w-full flex justify-center bg-gradient-to-b via-blue-900 from-[#5576b6] to-[#596b87]  ">
-			<div className="max-w-screen-lg w-full flex flex-col  items-center bg-gradient-to-r from-black to-black via-purple-900   p-10 text-white rounded-[29px]">
+		<div className="w-full flex justify-center bg-gradient-to-b via-blue-900 from-[#010b18] to-[#596b87]  ">
+			<div className="max-w-screen-lg w-full flex flex-col  items-center bg-gradient-to-r from-[#000047] to-[#000047] via-purple-900   p-10 text-white rounded-[29px]">
 				<h2 className="text-xl font-bold italic text-center font-tcbbold mb-5">
 					CURRENT SELECTED CRYPTO JACKPOT ACCUMULATED CARD
 				</h2>
