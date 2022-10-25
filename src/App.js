@@ -18,6 +18,7 @@ import Social from "./Social";
 import ChooseDraw from "./components/UI/Modals/ChooseDraw";
 import ChooseNumber from "./components/UI/Modals/ChooseNumber";
 import Success from "./components/UI/Modals/Success";
+import { GlobalProvider } from "./context/GlobalState";
 
 // const hello = process.env.REACT_APP_TEST_VARIABLE;
 
@@ -26,48 +27,89 @@ function App() {
 	const [showNumber, setShowNumber] = useState(false);
 	const [showSuccess, setShowSuccess] = useState(false);
 	return (
-		<React.Fragment>
-			<Header />
-			<Hero
-				setShowDraw={() => {
-					setShowDraw(true);
-				}}
-			/>
-
-			<BrowserRouter>
-				<Main />
-				<Routes>
-					<Route path="/" element={<Bitcoin />} />
-					<Route path="/ethereum" element={<Ethereum />} />
-					<Route path="/krstm" element={<Krstm />} />
-					<Route path="/matic" element={<Matic />} />
-					<Route path="/my-tickets" element={<MyTickets />} />
-				</Routes>
-			</BrowserRouter>
-			{showDraw && (
-				<ChooseDraw
-					showDraw={showDraw}
-					setShowDraw={() => {
-						setShowDraw(false);
-					}}
-				/>
-			)}
-			{showNumber && <ChooseNumber />}
-			{showSuccess && <Success />}
-			<div className=" bg-no-repeat bg-cover bg-people-group">
-				<Banner
+		<GlobalProvider>
+			<React.Fragment>
+				<Header />
+				<Hero
 					setShowDraw={() => {
 						setShowDraw(true);
 					}}
 				/>
 
-				<Logs />
-			</div>
+				<BrowserRouter>
+					<Main />
+					<Routes>
+						<Route
+							path="/"
+							element={
+								<Bitcoin
+									setShowDraw={() => {
+										setShowDraw(true);
+									}}
+								/>
+							}
+						/>
+						<Route
+							path="/ethereum"
+							element={
+								<Ethereum
+									setShowDraw={() => {
+										setShowDraw(true);
+									}}
+								/>
+							}
+						/>
+						<Route
+							path="/krstm"
+							element={
+								<Krstm
+									setShowDraw={() => {
+										setShowDraw(true);
+									}}
+								/>
+							}
+						/>
+						<Route
+							path="/matic"
+							element={
+								<Matic
+									setShowDraw={() => {
+										setShowDraw(true);
+									}}
+								/>
+							}
+						/>
+						<Route path="/my-tickets" element={<MyTickets />} />
+					</Routes>
+				</BrowserRouter>
+				{showDraw && (
+					<ChooseDraw
+						showDraw={showDraw}
+						setShowDraw={setShowDraw}
+						setShowNumber={setShowNumber}
+					/>
+				)}
+				{showNumber && (
+					<ChooseNumber
+						showNumber={showNumber}
+						setShowNumber={setShowNumber}
+						setShowSuccess={setShowSuccess}
+					/>
+				)}
+				{showSuccess && (
+					<Success showSuccess={showSuccess} setShowSuccess={setShowSuccess} />
+				)}
+				<div className=" bg-no-repeat bg-cover bg-people-group">
+					<Banner />
 
-			<Partners />
-			<Footer />
-			<Social />
-		</React.Fragment>
+					<Logs />
+				</div>
+
+				<Partners />
+				<Footer />
+				<Social />
+			</React.Fragment>
+		</GlobalProvider>
 	);
 }
 

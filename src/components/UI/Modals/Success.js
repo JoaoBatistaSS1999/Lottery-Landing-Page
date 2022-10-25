@@ -3,11 +3,11 @@ import { Transition, Dialog } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import winningNumber from "../../../assets/utility/winning-number.png";
 
-const Success = () => {
-	const [open, setOpen] = useState(true);
+const Success = ({ setShowSuccess, showSuccess }) => {
+	// const [open, setOpen] = useState(true);
 	return (
-		<Transition.Root show={open} as={Fragment}>
-			<Dialog as="div" className="relative z-10" onClose={setOpen}>
+		<Transition.Root show={showSuccess} as={Fragment}>
+			<Dialog as="div" className="relative z-10" onClose={setShowSuccess}>
 				<Transition.Child
 					as={Fragment}
 					enter="ease-out duration-300"
@@ -36,7 +36,7 @@ const Success = () => {
 									<button
 										type="button"
 										className="rounded-md bg-transparent text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-										onClick={() => setOpen(false)}
+										onClick={() => setShowSuccess(false)}
 									>
 										<span className="sr-only">Close</span>
 										<XMarkIcon className="h-6 w-6  text-gray-500" aria-hidden="true" />

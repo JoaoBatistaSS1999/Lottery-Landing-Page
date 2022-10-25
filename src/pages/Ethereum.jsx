@@ -5,7 +5,7 @@ import winningNumber from "../assets/utility/winning-number.png";
 import bitcoin from "../assets/utility/bitcoin.png";
 import info from "../assets/utility/info.svg";
 
-const Ethereum = () => {
+const Ethereum = ({ setShowDraw }) => {
 	return (
 		<div className="w-full flex justify-center bg-gradient-to-b via-blue-900 from-[#010b18] to-[#596b87]  ">
 			<div className="max-w-screen-lg w-full flex flex-col  items-center bg-gradient-to-r from-[#000047] to-[#000047] via-purple-900   p-10 text-white rounded-[29px]">
@@ -39,7 +39,7 @@ const Ethereum = () => {
 						</div>
 
 						<div className="flex flex-col pl-5 pr-10">
-							<h3>Lates raffle winner</h3>
+							<h3>Latest raffle winner</h3>
 
 							<span className="flex items-center gap-2 text-3xl">
 								<img src={start} alt="start" />
@@ -133,6 +133,12 @@ const Ethereum = () => {
 							</li>
 						</ul>
 					</div>
+					<button
+						onClick={setShowDraw}
+						className="mx-auto mt-8 flex font-bold sm:text-2xl text-center items-center justify-center  rounded-[39px] bg-[#F00FE8] bg-gradient-to-r from-[#13EBFD] text-xs font-tcbregular italic text-[#FFFFFF] mb-12 sm:w-[400px] w-[400px] mx-auto sm:h-[70px] h-[40px]"
+					>
+						PLAY NOW
+					</button>
 				</div>
 			</div>
 		</div>

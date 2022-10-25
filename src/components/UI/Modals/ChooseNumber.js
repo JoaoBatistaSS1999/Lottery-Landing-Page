@@ -1,12 +1,77 @@
-import { React, Fragment, useState } from "react";
+import { React, Fragment, useContext, useState } from "react";
 import { Transition, Dialog } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import winningNumber from "../../../assets/utility/winning-number.png";
-const ChooseNumber = () => {
-	const [open, setOpen] = useState(true);
+import { GlobalContext } from "../../../context/GlobalState";
+import Web3Modal from "web3modal";
+import { ethers, Signer } from "ethers";
+import LuckBlocks from "../../../abi/LuckBlocks.json";
+import ERC20 from "../../../abi/ERC20_ABI.json";
+
+import { erc20Address, luckBlocksAddress } from "../../../.config";
+import spinner from "../../../assets/images/spinner.svg";
+
+const ChooseNumber = ({ showNumber, setShowNumber, setShowSuccess }) => {
+	const [loading, setLoading] = useState(false);
+	const [formInput, updateFormInput] = useState({
+		firstNumber: 0,
+		secondNumber: 0,
+	});
+	const { ticketAmount, users } = useContext(GlobalContext);
+
+	async function buyTicket() {
+		if (users.account == "") {
+			console.log("please connect to metamask");
+		} else {
+			setLoading(true);
+			const { firstNumber, secondNumber } = formInput;
+			const web3modal = new Web3Modal();
+			const connection = await web3modal.connect();
+			const provider = new ethers.providers.Web3Provider(connection);
+			const signer = provider.getSigner();
+			// let approveContract = await new ethers.Contract(
+			// 	erc20Address,
+			// 	ERC20.abi,
+			// 	signer
+			// );
+			// const approvalAmount = ethers.utils.parseUnits("1000", "ether");
+			// let transaction = await approveContract.approve(
+			// 	luckBlocksAddress,
+			// 	approvalAmount
+			// );
+			// await transaction.wait();
+			const ticketvalue = ethers.utils.parseUnits(ticketAmount, "ether");
+			const contract = await new ethers.Contract(
+				luckBlocksAddress,
+				LuckBlocks.abi,
+				signer
+			);
+
+			console.log("ticketProvider:::", ticketAmount);
+
+			console.log("ticketProvider", secondNumber);
+
+			let transaction = await contract.BuyTicket(
+				users.account,
+				ticketvalue,
+				firstNumber,
+				secondNumber
+			);
+			console.log("ticketProvider", transaction);
+			let tx = await transaction.wait();
+			setLoading(false);
+			contract.on("LotteryLog");
+			let event = tx.events[0];
+			console.log("tx ", tx);
+			console.log("event emmitted", event);
+			setShowNumber(false);
+			setShowSuccess(true);
+		}
+	}
+
 	return (
-		<Transition.Root show={open} as={Fragment}>
-			<Dialog as="div" className="relative z-10" onClose={setOpen}>
+		<Transition.Root show={showNumber} as={Fragment}>
+			<Dialog as="div" className="relative z-10" onClose={setShowNumber}>
 				<Transition.Child
 					as={Fragment}
 					enter="ease-out duration-300"
@@ -35,7 +100,7 @@ const ChooseNumber = () => {
 									<button
 										type="button"
 										className="rounded-md bg-transparent text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-										onClick={() => setOpen(false)}
+										onClick={() => setShowNumber(false)}
 									>
 										<span className="sr-only">Close</span>
 										<XMarkIcon className="h-6 w-6  text-gray-500" aria-hidden="true" />
@@ -63,6 +128,10 @@ const ChooseNumber = () => {
 												<input
 													type="number"
 													id="draw"
+													value={formInput.firstNumber}
+													onChange={(e) =>
+														updateFormInput({ ...formInput, firstNumber: e.target.value })
+													}
 													className="block w-32 bg-black border text-gray-300 text-center text-8xl h-36 border-[#B2FAFF] rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
 												/>
 											</div>
@@ -73,13 +142,23 @@ const ChooseNumber = () => {
 												<input
 													type="number"
 													id="draw2"
+													value={formInput.secondNumber}
+													onChange={(e) =>
+														updateFormInput({ ...formInput, secondNumber: e.target.value })
+													}
 													className="block w-32 bg-black border text-gray-300 text-center text-8xl h-36 border-[#B2FAFF] rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
 												/>
 											</div>
 											<p className="mt-2 text-sm text-[#8E90FF]">2 DRAW</p>
 										</div>
 									</div>
-									<button className="w-32 rounded-[39px] h-12 text-xl font-tcbregular italic text-white bg-[#F00FE8] bg-gradient-to-r from-[#13EBFD] ">
+									<button
+										onClick={buyTicket}
+										className="w-32 rounded-[39px] flex items-center p-4 h-12 text-xl font-tcbregular justify-center italic text-white bg-[#F00FE8] bg-gradient-to-r from-[#13EBFD] "
+									>
+										{loading && (
+											<img className="animate-spin mr-3   w-5 h-5" src={spinner} />
+										)}
 										ACCEPT
 									</button>
 								</div>

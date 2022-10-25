@@ -3,10 +3,11 @@ import Web3Modal from "web3modal";
 import { ethers, providers } from "ethers";
 
 import { shortAddress } from "../../utils";
-import { AppContext } from "../../context/appContext";
+import { GlobalContext } from "../../context/GlobalState";
 
 import link from "../../assets/Icons/biglink.png";
 import logo from "../../assets/Icons/logo.png";
+import luckblock from "../../assets/images/luckblockssvg_1.svg";
 import hamburger from "../../assets/utility/hamburger.png";
 import close from "../../assets/utility/close.png";
 import twitter from "../../assets/socialIcons/twitter.png";
@@ -14,6 +15,7 @@ import telegram from "../../assets/socialIcons/telegram.png";
 
 const Header = () => {
 	const [account, setAccount] = useState(" ");
+	const { addUser } = useContext(GlobalContext);
 	const [walletConnected, setWalletConnected] = useState(false);
 	const [web3Modal, setWeb3Modal] = useState(null);
 	const [isMobileMenu, setMobileMenu] = useState(false);
@@ -60,16 +62,27 @@ const Header = () => {
 		// removeAccount();
 	};
 	async function connectWallet() {
-		const provider = await web3Modal.connect();
-		addListeners(provider);
-		const ethersProvider = new providers.Web3Provider(provider);
-		const userAddress = await ethersProvider.getSigner().getAddress();
-		const userBalance = await ethersProvider.getBalance(userAddress);
-		// console.log("userBalance", ethers.utils.formatUnits(userBalance));
-		setAccount(userAddress);
-		setWalletConnected(true);
+		if (typeof window.ethereum !== "undefined") {
+			const provider = await web3Modal.connect();
+			addListeners(provider);
+			const ethersProvider = new providers.Web3Provider(provider);
+			const userAddress = await ethersProvider.getSigner().getAddress();
+			const userBalance = await ethersProvider.getBalance(userAddress);
+			// console.log("userBalance", ethers.utils.formatUnits(userBalance));
+			setAccount(userAddress);
+			setWalletConnected(true);
+			addUser({
+				account: userAddress,
+				userBalance: userBalance,
+			});
 
-		// console.log("userAccount", userAccount);
+			// console.log("userAccount", userAccount);
+		} else {
+			console.log("MetaMask is installed!");
+			alert(
+				`Failed to load web3, accounts, or contract. please make sure that you have metamask installed on your browser and is connected to Ropsten network  .`
+			);
+		}
 	}
 
 	return (

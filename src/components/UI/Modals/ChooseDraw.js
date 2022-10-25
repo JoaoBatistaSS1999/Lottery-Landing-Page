@@ -1,13 +1,21 @@
-import { React, Fragment, useState } from "react";
+import { React, Fragment, useContext } from "react";
 import { Transition, Dialog } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import winningNumber from "../../../assets/utility/winning-number.png";
+import { GlobalContext } from "../../../context/GlobalState";
 
-const ChooseDraw = ({ showDraw, setShowDraw }) => {
-	const [open, setOpen] = useState(true);
+const ChooseDraw = ({ showDraw, setShowDraw, setShowNumber }) => {
+	const { addTicketAmount } = useContext(GlobalContext);
+
+	function buyTicket(amount) {
+		addTicketAmount(amount);
+		setShowDraw(false);
+		setShowNumber(true);
+	}
+
 	return (
 		<Transition.Root show={showDraw} as={Fragment}>
-			<Dialog as="div" className="relative z-10" onClose={setOpen}>
+			<Dialog as="div" className="relative z-10" onClose={setShowDraw}>
 				<Transition.Child
 					as={Fragment}
 					enter="ease-out duration-300"
@@ -36,7 +44,9 @@ const ChooseDraw = ({ showDraw, setShowDraw }) => {
 									<button
 										type="button"
 										className="rounded-md bg-transparent text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-										onClick={setShowDraw}
+										onClick={() => {
+											setShowDraw(false);
+										}}
 									>
 										<span className="sr-only">Close</span>
 										<XMarkIcon className="h-6 w-6  text-gray-500" aria-hidden="true" />
@@ -75,7 +85,12 @@ const ChooseDraw = ({ showDraw, setShowDraw }) => {
 											{" "}
 											6.00$
 										</div>
-										<button className="w-full rounded-[39px] h-12 text-xl font-tcbregular italic text-white bg-[#F00FE8] bg-gradient-to-r from-[#13EBFD] ">
+										<button
+											onClick={() => {
+												buyTicket("6");
+											}}
+											className="w-full rounded-[39px] h-12 text-xl font-tcbregular italic text-white bg-[#F00FE8] bg-gradient-to-r from-[#13EBFD] "
+										>
 											+ BUY
 										</button>
 									</div>
@@ -101,7 +116,12 @@ const ChooseDraw = ({ showDraw, setShowDraw }) => {
 											{" "}
 											12.00$
 										</div>
-										<button className="w-full rounded-[39px] h-12 text-xl font-tcbregular italic text-white bg-[#F00FE8] bg-gradient-to-r from-[#13EBFD] ">
+										<button
+											onClick={() => {
+												buyTicket("12");
+											}}
+											className="w-full rounded-[39px] h-12 text-xl font-tcbregular italic text-white bg-[#F00FE8] bg-gradient-to-r from-[#13EBFD] "
+										>
 											+ BUY
 										</button>
 									</div>
@@ -127,7 +147,12 @@ const ChooseDraw = ({ showDraw, setShowDraw }) => {
 											{" "}
 											18.00$
 										</div>
-										<button className="w-full rounded-[39px] h-12 text-xl font-tcbregular italic text-white bg-[#F00FE8] bg-gradient-to-r from-[#13EBFD] ">
+										<button
+											onClick={() => {
+												buyTicket("18");
+											}}
+											className="w-full rounded-[39px] h-12 text-xl font-tcbregular italic text-white bg-[#F00FE8] bg-gradient-to-r from-[#13EBFD] "
+										>
 											+ BUY
 										</button>
 									</div>
