@@ -1,11 +1,39 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import start from "../assets/utility/star.svg";
 import copy from "../assets/utility/copy.png";
 import winningNumber from "../assets/utility/winning-number.png";
 import bitcoin from "../assets/utility/bitcoin.png";
 import info from "../assets/utility/info.svg";
+import { ethers } from "ethers";
+import Web3Modal from "web3modal";
+import { luckBlocksAddress } from "../.config";
+import LuckBlocks from "../abi/LuckBlocks.json";
 
 const Ethereum = ({ setShowDraw }) => {
+	const [winner, setWinner] = useState("");
+	const [jackpotWinner, setJackpotWinner] = useState("");
+
+	async function getRaffleWinner() {
+		const provider = new ethers.providers.JsonRpcProvider(
+			`https://bsctestapi.terminet.io/rpc`
+		);
+		const contract = new ethers.Contract(
+			luckBlocksAddress,
+			LuckBlocks.abi,
+			provider
+		);
+		const lastWinner = await contract.ourLastWinner();
+		const lastJacpotWinner = await contract.ourLastJackpotWinner();
+		const totalTickets = await contract.amountOfRegisters();
+		console.log("toatk", totalTickets);
+		setWinner(lastWinner);
+		setJackpotWinner(winner);
+	}
+
+	useEffect(() => {
+		getRaffleWinner();
+	}, []);
+
 	return (
 		<div className="w-full flex   justify-center bg-gradient-to-b via-blue-900 from-[#010b18] to-[#596b87]  ">
 			<div className="max-w-screen-lg w-full flex flex-col  items-center bg-gradient-to-r from-[#000047] to-[#000047] via-purple-900   p-10 text-white rounded-[29px]">
@@ -32,14 +60,14 @@ const Ethereum = ({ setShowDraw }) => {
 
 							<a href="" className="mt-10">
 								<button className="flex items-center gap-2 bg-[#323965] h-[30px] w-[260px] px-4 py-3 rounded-[15px] text-sm">
-									{"0xadf9bFB903e34B25ceC47b6D1A468741fdB71F69".slice(0, 24) + "..."}
+									{`${winner}`.slice(0, 24) + "..."}
 									<img src={copy} alt="copy" className="h-[15px]" />
 								</button>
 							</a>
 						</div>
 
 						<div className="flex flex-col pl-5 pr-10">
-							<h3>Lates raffle winner</h3>
+							<h3>Latest draw winner</h3>
 
 							<span className="flex items-center gap-2 text-3xl">
 								<img src={start} alt="start" />
@@ -48,7 +76,7 @@ const Ethereum = ({ setShowDraw }) => {
 
 							<a href="" className="mt-10">
 								<button className="flex items-center gap-2 bg-[#323965] h-[30px] w-[260px] px-4 py-3 rounded-[15px] text-sm">
-									{"0xadf9bFB903e34B25ceC47b6D1A468741fdB71F69".slice(0, 24) + "..."}
+									{`${jackpotWinner}`.slice(0, 24) + "..."}
 									<img src={copy} alt="copy" className="h-[15px]" />
 								</button>
 							</a>
@@ -103,7 +131,7 @@ const Ethereum = ({ setShowDraw }) => {
 							<li className="flex font-bold border-b border-[#5153AC]  text-xl text-[#5153AC] flex-col justify-center items-start py-7 px-5 w-80">
 								PRICE OF TICKET{" "}
 								<p className="font-bold text-xl flex items-center gap-3 text-white">
-									0,5 BNB <img src={info} alt="info" className="w-4 h-4" />
+									5 USDC <img src={info} alt="info" className="w-4 h-4" />
 								</p>
 							</li>
 							<li className="flex font-bold  text-xl text-[#5153AC] flex-col justify-center items-start py-7 px-5 w-80">
@@ -122,13 +150,14 @@ const Ethereum = ({ setShowDraw }) => {
 							<li className="flex font-bold border-b border-[#5153AC]  text-xl text-[#5153AC] flex-col justify-center items-start py-7 px-5 w-80">
 								PRICE ON EACH DRAW{" "}
 								<p className="font-bold text-xl flex items-center gap-3 text-white">
-									2,5 BNB <img src={info} alt="info" className="w-4 h-4" />
+									2.5 USDC
+									<img src={info} alt="info" className="w-4 h-4" />
 								</p>
 							</li>
 							<li className="flex font-bold  text-xl text-[#5153AC] flex-col justify-center items-start py-7 px-5 w-80">
 								YUOR WINNING CHANCES{" "}
 								<p className="font-bold text-xl flex items-center gap-3 text-white">
-									2,4% <img src={info} alt="info" className="w-4 h-4" />
+									2.4% <img src={info} alt="info" className="w-4 h-4" />
 								</p>
 							</li>
 						</ul>

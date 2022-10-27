@@ -1,16 +1,74 @@
-import { React, Fragment, useContext } from "react";
+import { React, Fragment, useContext, useEffect, useState } from "react";
 import { Transition, Dialog } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import winningNumber from "../../../assets/utility/winning-number.png";
 import { GlobalContext } from "../../../context/GlobalState";
+import { erc20Address, luckBlocksAddress } from "../../../.config";
+import { ethers } from "ethers";
+import Web3Modal from "web3modal";
+import ERC20 from "../../../abi/ERC20_ABI.json";
+import spinner from "../../../assets/images/spinner.svg";
+import Swal from "sweetalert2";
 
 const ChooseDraw = ({ showDraw, setShowDraw, setShowNumber }) => {
-	const { addTicketAmount } = useContext(GlobalContext);
+	const { addTicketAmount, users } = useContext(GlobalContext);
+	const [approve, setApprove] = useState(false);
+	const [loading, setLoading] = useState(false);
 
 	function buyTicket(amount) {
 		addTicketAmount(amount);
 		setShowDraw(false);
 		setShowNumber(true);
+	}
+
+	async function checkForApproval() {
+		if (users.account == "") {
+			console.log("please connect to metamask");
+		} else {
+			setLoading(true);
+			const provider = new ethers.providers.JsonRpcProvider(
+				`https://bsctestapi.terminet.io/rpc`
+			);
+			const contract = new ethers.Contract(erc20Address, ERC20.abi, provider);
+			let approval = await contract.allowance(users.account, luckBlocksAddress);
+			console.log("before   ", approval);
+
+			approval = await ethers.utils.formatUnits(approval.toString(), "ether");
+			console.log("PPRO   ", approval);
+			if (approval > 0) {
+				setLoading(false);
+				setApprove(true);
+			} else {
+				approveToSpendUSDC();
+			}
+		}
+	}
+
+	async function approveToSpendUSDC() {
+		const web3modal = new Web3Modal();
+		const connection = await web3modal.connect();
+		const provider = new ethers.providers.Web3Provider(connection);
+		const signer = provider.getSigner();
+		let approveContract = await new ethers.Contract(
+			erc20Address,
+			ERC20.abi,
+			signer
+		);
+		const approvalAmount = ethers.utils.parseUnits("1000", "ether");
+		let transaction = await approveContract.approve(
+			luckBlocksAddress,
+			approvalAmount
+		);
+		await transaction.wait();
+		setLoading(false);
+		setApprove(true);
+		Swal.fire({
+			title: "Success",
+			text: "Approval was successful, Now you can buy a ticket",
+			icon: "success",
+			showConfirmButton: false,
+			timer: 1500,
+		});
 	}
 
 	return (
@@ -85,14 +143,16 @@ const ChooseDraw = ({ showDraw, setShowDraw, setShowNumber }) => {
 											{" "}
 											6.00$
 										</div>
-										<button
-											onClick={() => {
-												buyTicket("6");
-											}}
-											className="w-full rounded-[39px] h-12 text-xl font-tcbregular italic text-white bg-[#F00FE8] bg-gradient-to-r from-[#13EBFD] "
-										>
-											+ BUY
-										</button>
+										{approve && (
+											<button
+												onClick={() => {
+													buyTicket("6");
+												}}
+												className="w-full rounded-[39px] h-12 text-xl font-tcbregular italic text-white bg-[#F00FE8] bg-gradient-to-r from-[#13EBFD] "
+											>
+												+ BUY
+											</button>
+										)}
 									</div>
 									<div className="rounded-[39px] border mt-8 h-[400px] p-2 sm:p-4 flex flex-col border-white">
 										<img
@@ -116,14 +176,16 @@ const ChooseDraw = ({ showDraw, setShowDraw, setShowNumber }) => {
 											{" "}
 											12.00$
 										</div>
-										<button
-											onClick={() => {
-												buyTicket("12");
-											}}
-											className="w-full rounded-[39px] h-12 text-xl font-tcbregular italic text-white bg-[#F00FE8] bg-gradient-to-r from-[#13EBFD] "
-										>
-											+ BUY
-										</button>
+										{approve && (
+											<button
+												onClick={() => {
+													buyTicket("12");
+												}}
+												className="w-full rounded-[39px] h-12 text-xl font-tcbregular italic text-white bg-[#F00FE8] bg-gradient-to-r from-[#13EBFD] "
+											>
+												+ BUY
+											</button>
+										)}
 									</div>
 									<div className="rounded-[39px] border mt-8 h-[400px] p-2 sm:p-4 flex flex-col border-white">
 										<img
@@ -147,16 +209,29 @@ const ChooseDraw = ({ showDraw, setShowDraw, setShowNumber }) => {
 											{" "}
 											18.00$
 										</div>
-										<button
-											onClick={() => {
-												buyTicket("18");
-											}}
-											className="w-full rounded-[39px] h-12 text-xl font-tcbregular italic text-white bg-[#F00FE8] bg-gradient-to-r from-[#13EBFD] "
-										>
-											+ BUY
-										</button>
+										{approve && (
+											<button
+												onClick={() => {
+													buyTicket("18");
+												}}
+												className="w-full rounded-[39px] h-12 text-xl font-tcbregular italic text-white bg-[#F00FE8] bg-gradient-to-r from-[#13EBFD] "
+											>
+												+ BUY
+											</button>
+										)}
 									</div>
 								</div>
+								{!approve && (
+									<button
+										onClick={() => checkForApproval()}
+										className="px-4 h-12 flex items-center mx-auto text-xl font-tcbregular italic text-white bg-[#F00FE8] bg-gradient-to-r from-[#13EBFD]  rounded-[39px]  mt-4"
+									>
+										{loading && (
+											<img className="animate-spin mr-3   w-5 h-5" src={spinner} />
+										)}
+										APPROVE USDC
+									</button>
+								)}
 							</Dialog.Panel>
 						</Transition.Child>
 					</div>

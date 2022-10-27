@@ -18,10 +18,15 @@ const LogItem = ({ event }) => {
 					{/* <p className="flex lg:hidden text-xs text-white">JOHNWICKASS9087...</p> */}
 
 					<p className="hidden font-tcbregular items-center italic lg:flex font-bold text-white">
-						We have a new raffle Winner but no jackpot! Jackpot Numbers was:{" "}
+						We have a new raffle Winner, Jackpot Number:&nbsp;
 						<span className="text-2xl text-[#8E90FF] ">
 							{" "}
-							{bigNumberToNumber(event.args[3])} {bigNumberToNumber(event.args[3])}
+							{bigNumberToNumber(event.args[3])}, {bigNumberToNumber(event.args[4])}
+						</span>{" "}
+						&nbsp; Player Number:&nbsp;
+						<span className="text-2xl text-[#8E90FF] ">
+							{" "}
+							{bigNumberToNumber(event.args[6])}, {bigNumberToNumber(event.args[7])}
 						</span>
 					</p>
 				</div>

@@ -49,9 +49,12 @@ const Logs = () => {
 						<EmptyState />
 					) : (
 						<ul className="w-full flex flex-col gap-2 px-1 lg:px-20 overflow-y-scroll scrollbar-thin scrollbar-thumb-[#375268] scrollbar-thumb-rounded-xl">
-							{txs.map((event, index) => (
-								<LogItem event={event} key={index} />
-							))}
+							{txs
+								.slice(0)
+								.reverse()
+								.map((event, index) => (
+									<LogItem event={event} key={index} />
+								))}
 						</ul>
 					)}
 				</div>

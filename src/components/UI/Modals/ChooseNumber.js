@@ -29,17 +29,7 @@ const ChooseNumber = ({ showNumber, setShowNumber, setShowSuccess }) => {
 			const connection = await web3modal.connect();
 			const provider = new ethers.providers.Web3Provider(connection);
 			const signer = provider.getSigner();
-			// let approveContract = await new ethers.Contract(
-			// 	erc20Address,
-			// 	ERC20.abi,
-			// 	signer
-			// );
-			// const approvalAmount = ethers.utils.parseUnits("1000", "ether");
-			// let transaction = await approveContract.approve(
-			// 	luckBlocksAddress,
-			// 	approvalAmount
-			// );
-			// await transaction.wait();
+
 			const ticketvalue = ethers.utils.parseUnits(ticketAmount, "ether");
 			const contract = await new ethers.Contract(
 				luckBlocksAddress,
