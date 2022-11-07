@@ -12,6 +12,7 @@ import LuckBlocks from "../abi/LuckBlocks.json";
 const Ethereum = ({ setShowDraw }) => {
 	const [winner, setWinner] = useState("");
 	const [jackpotWinner, setJackpotWinner] = useState("");
+	const [ticketBought, setTicketBought] = useState(0);
 
 	async function getRaffleWinner() {
 		const provider = new ethers.providers.JsonRpcProvider(
@@ -25,9 +26,13 @@ const Ethereum = ({ setShowDraw }) => {
 		const lastWinner = await contract.ourLastWinner();
 		const lastJacpotWinner = await contract.ourLastJackpotWinner();
 		const totalTickets = await contract.amountOfRegisters();
-		console.log("toatk", totalTickets);
+		console.log("ticket bought,", lastJacpotWinner);
+		const formatedTotalTicket =
+			(await ethers.utils.formatUnits(totalTickets.toString(), "ether")) * 1e18;
+		setTicketBought(formatedTotalTicket);
+
 		setWinner(lastWinner);
-		setJackpotWinner(winner);
+		setJackpotWinner(lastJacpotWinner);
 	}
 
 	useEffect(() => {
@@ -126,7 +131,7 @@ const Ethereum = ({ setShowDraw }) => {
 						<ul className="flex flex-col gap-2">
 							<li className="flex font-bold border-b border-[#5153AC]  text-xl text-[#5153AC] flex-col justify-center items-start py-7 px-5 w-80">
 								TOTAL TICKED BOUGHT:{" "}
-								<p className="font-bold text-xl text-white">15 865</p>
+								<p className="font-bold text-xl text-white">{ticketBought}</p>
 							</li>
 							<li className="flex font-bold border-b border-[#5153AC]  text-xl text-[#5153AC] flex-col justify-center items-start py-7 px-5 w-80">
 								PRICE OF TICKET{" "}
