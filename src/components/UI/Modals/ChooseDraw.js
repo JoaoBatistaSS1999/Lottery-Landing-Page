@@ -9,15 +9,19 @@ import Web3Modal from "web3modal";
 import ERC20 from "../../../abi/ERC20_ABI.json";
 import spinner from "../../../assets/images/spinner.svg";
 import Swal from "sweetalert2";
+import { useLocation } from "react-router-dom";
 
 const ChooseDraw = ({ showDraw, setShowDraw, setShowNumber }) => {
+	const location = useLocation();
 	const { addTicketAmount, users } = useContext(GlobalContext);
 	const [approve, setApprove] = useState(false);
 	const [loading, setLoading] = useState(false);
 
 	function buyTicket(amount) {
 		addTicketAmount(amount);
+
 		setShowDraw(false);
+		console.log("current path", location.pathname);
 		setShowNumber(true);
 	}
 

@@ -66,6 +66,7 @@ const Header = () => {
 			const provider = await web3Modal.connect();
 			addListeners(provider);
 			const ethersProvider = new providers.Web3Provider(provider);
+			const { chainId } = await ethersProvider.getNetwork();
 			const userAddress = await ethersProvider.getSigner().getAddress();
 			const userBalance = await ethersProvider.getBalance(userAddress);
 			// console.log("userBalance", ethers.utils.formatUnits(userBalance));
@@ -75,13 +76,60 @@ const Header = () => {
 				account: userAddress,
 				userBalance: userBalance,
 			});
-
+			if (chainId !== 97) {
+				checkifUserisConnectedToBsc();
+			}
 			// console.log("userAccount", userAccount);
 		} else {
 			console.log("MetaMask is installed!");
 			alert(
 				`Failed to load web3, accounts, or contract. please make sure that you have metamask installed on your browser and is connected to Ropsten network  .`
 			);
+		}
+	}
+
+	async function checkifUserisConnectedToBsc() {
+		try {
+			console.log("here switch2");
+			console.log("here switch", "0x13881");
+			await window.ethereum.request({
+				method: "wallet_switchEthereumChain",
+				params: [{ chainId: `0x${Number(56).toString(16)}` }],
+			});
+			console.log("here switch");
+		} catch (err) {
+			// This error code indicates that the chain has not been added to MetaMask
+			if (err.code === 4902) {
+				await window.ethereum.request({
+					method: "wallet_addEthereumChain",
+					params: [
+						{
+							chainName: "Binance Smart Chain Mainnet",
+							chainId: `0x${Number(56).toString(16)}`,
+							nativeCurrency: {
+								name: "Binance Chain Native Token",
+								symbol: "BNB",
+								decimals: 18,
+							},
+							rpcUrls: [
+								"https://bsc-dataseed1.binance.org",
+								"https://bsc-dataseed2.binance.org",
+								"https://bsc-dataseed3.binance.org",
+								"https://bsc-dataseed4.binance.org",
+								"https://bsc-dataseed1.defibit.io",
+								"https://bsc-dataseed2.defibit.io",
+								"https://bsc-dataseed3.defibit.io",
+								"https://bsc-dataseed4.defibit.io",
+								"https://bsc-dataseed1.ninicoin.io",
+								"https://bsc-dataseed2.ninicoin.io",
+								"https://bsc-dataseed3.ninicoin.io",
+								"https://bsc-dataseed4.ninicoin.io",
+								"wss://bsc-ws-node.nariox.org",
+							],
+						},
+					],
+				});
+			}
 		}
 	}
 

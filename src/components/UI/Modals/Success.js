@@ -2,9 +2,16 @@ import { React, Fragment, useState } from "react";
 import { Transition, Dialog } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import winningNumber from "../../../assets/utility/winning-number.png";
+import { useNavigate } from "react-router-dom";
 
 const Success = ({ setShowSuccess, showSuccess }) => {
 	// const [open, setOpen] = useState(true);
+	const navigate = useNavigate();
+
+	function goHome() {
+		setShowSuccess(false);
+		navigate("/");
+	}
 	return (
 		<Transition.Root show={showSuccess} as={Fragment}>
 			<Dialog as="div" className="relative z-10" onClose={setShowSuccess}>
@@ -52,7 +59,7 @@ const Success = ({ setShowSuccess, showSuccess }) => {
 										</Dialog.Title>
 									</div>
 								</div>
-								<div className="grid border h-[400px] mt-20 place-items-center rounded-[39px] border-white mt-4 ">
+								<div className="grid border h-[400px] mt-20 place-items-center rounded-[39px] border-white ">
 									<div className="font-tcbbold mt-8 text-white italic text-4xl">
 										<img
 											src={winningNumber}
@@ -62,7 +69,10 @@ const Success = ({ setShowSuccess, showSuccess }) => {
 										YOU SUCESSFLULLY PURCHASED A TICKET! NOW ONLY THING LEFT IS A LITTLE
 										WAIT!
 									</div>
-									<button className="w-32 rounded-[39px] h-12 text-xl font-tcbregular italic text-white bg-[#F00FE8] bg-gradient-to-r from-[#13EBFD] ">
+									<button
+										onClick={goHome}
+										className="w-32 rounded-[39px] h-12 text-xl font-tcbregular italic text-white bg-[#F00FE8] bg-gradient-to-r from-[#13EBFD] "
+									>
 										BACK TO HOME
 									</button>
 								</div>
