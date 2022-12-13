@@ -88,13 +88,58 @@ const Header = () => {
 		}
 	}
 
+	// async function checkifUserisConnectedToBsc() {
+	// 	try {
+	// 		console.log("here switch2");
+	// 		console.log("here switch", "0x13881");
+	// 		await window.ethereum.request({
+	// 			method: "wallet_switchEthereumChain",
+	// 			params: [{ chainId: `0x${Number(56).toString(16)}` }],
+	// 		});
+	// 		console.log("here switch");
+	// 	} catch (err) {
+	// 		// This error code indicates that the chain has not been added to MetaMask
+	// 		if (err.code === 4902) {
+	// 			await window.ethereum.request({
+	// 				method: "wallet_addEthereumChain",
+	// 				params: [
+	// 					{
+	// 						chainName: "Binance Smart Chain Mainnet",
+	// 						chainId: `0x${Number(56).toString(16)}`,
+	// 						nativeCurrency: {
+	// 							name: "Binance Chain Native Token",
+	// 							symbol: "BNB",
+	// 							decimals: 18,
+	// 						},
+	// 						rpcUrls: [
+	// 							"https://bsc-dataseed1.binance.org",
+	// 							"https://bsc-dataseed2.binance.org",
+	// 							"https://bsc-dataseed3.binance.org",
+	// 							"https://bsc-dataseed4.binance.org",
+	// 							"https://bsc-dataseed1.defibit.io",
+	// 							"https://bsc-dataseed2.defibit.io",
+	// 							"https://bsc-dataseed3.defibit.io",
+	// 							"https://bsc-dataseed4.defibit.io",
+	// 							"https://bsc-dataseed1.ninicoin.io",
+	// 							"https://bsc-dataseed2.ninicoin.io",
+	// 							"https://bsc-dataseed3.ninicoin.io",
+	// 							"https://bsc-dataseed4.ninicoin.io",
+	// 							"wss://bsc-ws-node.nariox.org",
+	// 						],
+	// 					},
+	// 				],
+	// 			});
+	// 		}
+	// 	}
+	// }
+
 	async function checkifUserisConnectedToBsc() {
 		try {
 			console.log("here switch2");
 			console.log("here switch", "0x13881");
 			await window.ethereum.request({
 				method: "wallet_switchEthereumChain",
-				params: [{ chainId: `0x${Number(56).toString(16)}` }],
+				params: [{ chainId: `0x61` }],
 			});
 			console.log("here switch");
 		} catch (err) {
@@ -104,27 +149,17 @@ const Header = () => {
 					method: "wallet_addEthereumChain",
 					params: [
 						{
-							chainName: "Binance Smart Chain Mainnet",
-							chainId: `0x${Number(56).toString(16)}`,
+							chainName: "Binance Smart Chain Testnet",
+							chainId: `0x61`,
 							nativeCurrency: {
 								name: "Binance Chain Native Token",
-								symbol: "BNB",
+								symbol: "tBNB",
 								decimals: 18,
 							},
 							rpcUrls: [
-								"https://bsc-dataseed1.binance.org",
-								"https://bsc-dataseed2.binance.org",
-								"https://bsc-dataseed3.binance.org",
-								"https://bsc-dataseed4.binance.org",
-								"https://bsc-dataseed1.defibit.io",
-								"https://bsc-dataseed2.defibit.io",
-								"https://bsc-dataseed3.defibit.io",
-								"https://bsc-dataseed4.defibit.io",
-								"https://bsc-dataseed1.ninicoin.io",
-								"https://bsc-dataseed2.ninicoin.io",
-								"https://bsc-dataseed3.ninicoin.io",
-								"https://bsc-dataseed4.ninicoin.io",
-								"wss://bsc-ws-node.nariox.org",
+								"https://data-seed-prebsc-1-s3.binance.org:8545",
+								"https://data-seed-prebsc-2-s1.binance.org:8545",
+								"https://testnet.bscscan.com",
 							],
 						},
 					],
