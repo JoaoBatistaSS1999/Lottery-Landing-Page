@@ -76,7 +76,7 @@ const EthChooseNumber = ({ showNumber, setShowNumber, setShowSuccess }) => {
 		} else {
 			setLoading(true);
 			const provider = new ethers.providers.JsonRpcProvider(
-				`https://bsctestapi.terminet.io/rpc`
+				`https://data-seed-prebsc-2-s3.binance.org:8545`
 			);
 			const contract = new ethers.Contract(erc20Address, ERC20.abi, provider);
 			let approval = await contract.allowance(users.account, ethLuckBlocksAddress);
@@ -136,7 +136,7 @@ const EthChooseNumber = ({ showNumber, setShowNumber, setShowSuccess }) => {
 				</Transition.Child>
 
 				<div className="fixed inset-0 z-10 overflow-y-auto">
-					<div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+					<div className="flex min-h-full lg:items-end xl:items-end justify-center p-4 text-center sm:items-center sm:p-0">
 						<Transition.Child
 							as={Fragment}
 							enter="ease-out duration-300"
@@ -167,14 +167,14 @@ const EthChooseNumber = ({ showNumber, setShowNumber, setShowSuccess }) => {
 										</Dialog.Title>
 									</div>
 								</div>
-								<div className="grid border h-[400px] place-items-center rounded-[39px] border-white mt-20 ">
+								<div className="grid border h-[500px] lg:h-[400px] xl:h-[400px] place-items-center rounded-[39px] border-white mt-20 ">
 									<img
 										src={winningNumber}
 										alt="winning_number"
 										className="w-[100px] sm:w-[150px]  absolute inset-x-0 top-24 mx-auto lg:flex  h-[100px] sm:h-[150px]  "
 									/>
-									<div className="flex mt-12 flex-row">
-										<div className="mr-4">
+									<div className=" mt-12 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3  gap-4">
+										<div className="">
 											<div className="mt-1">
 												<input
 													type="number"
@@ -185,12 +185,12 @@ const EthChooseNumber = ({ showNumber, setShowNumber, setShowSuccess }) => {
 													onChange={(e) =>
 														updateFormInput({ ...formInput, firstNumber: e.target.value })
 													}
-													className="block w-32 bg-black border text-gray-300 text-center text-8xl h-36 border-[#B2FAFF] rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+													className="block bg-black border text-gray-300 text-center text-8xl h-36 border-[#B2FAFF] rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
 												/>
 											</div>
 											<p className="mt-2 text-sm  text-[#8E90FF]">1 DRAW</p>
 										</div>
-										<div className="mr-4">
+										<div className="">
 											<div className="mt-1">
 												<input
 													type="number"
@@ -201,13 +201,13 @@ const EthChooseNumber = ({ showNumber, setShowNumber, setShowSuccess }) => {
 													onChange={(e) =>
 														updateFormInput({ ...formInput, secondNumber: e.target.value })
 													}
-													className="block w-32 bg-black border text-gray-300 text-center text-8xl h-36 border-[#B2FAFF] rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+													className="block  bg-black border text-gray-300 text-center text-8xl h-36 border-[#B2FAFF] rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
 												/>
 											</div>
 											<p className="mt-2 text-sm text-[#8E90FF]">2 DRAW</p>
 										</div>
 										<div>
-											<div className="mt-1">
+											<div className="mt-1 ">
 												<input
 													type="number"
 													id="draw2"
@@ -217,7 +217,7 @@ const EthChooseNumber = ({ showNumber, setShowNumber, setShowSuccess }) => {
 													onChange={(e) =>
 														updateFormInput({ ...formInput, thirdNumber: e.target.value })
 													}
-													className="block w-32 bg-black border text-gray-300 text-center text-8xl h-36 border-[#B2FAFF] rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+													className="block   bg-black border text-gray-300 text-center text-8xl h-36 border-[#B2FAFF] rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
 												/>
 											</div>
 											<p className="mt-2 text-sm text-[#8E90FF]">3 DRAW</p>

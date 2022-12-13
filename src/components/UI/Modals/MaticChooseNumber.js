@@ -77,7 +77,7 @@ const MaticChooseNumber = ({ showNumber, setShowNumber, setShowSuccess }) => {
 		} else {
 			setLoading(true);
 			const provider = new ethers.providers.JsonRpcProvider(
-				`https://bsctestapi.terminet.io/rpc`
+				`https://data-seed-prebsc-2-s3.binance.org:8545`
 			);
 			const contract = new ethers.Contract(erc20Address, ERC20.abi, provider);
 			let approval = await contract.allowance(
@@ -139,7 +139,7 @@ const MaticChooseNumber = ({ showNumber, setShowNumber, setShowSuccess }) => {
 				</Transition.Child>
 
 				<div className="fixed inset-0 z-10 overflow-y-auto">
-					<div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+					<div className="flex min-h-full lg:items-end xl:items-end justify-center p-4 text-center sm:items-center sm:p-0">
 						<Transition.Child
 							as={Fragment}
 							enter="ease-out duration-300"
@@ -170,13 +170,13 @@ const MaticChooseNumber = ({ showNumber, setShowNumber, setShowSuccess }) => {
 										</Dialog.Title>
 									</div>
 								</div>
-								<div className="grid border h-[400px] place-items-center rounded-[39px] border-white mt-20 ">
+								<div className="grid border h-[500px] lg:h-[400px] xl:h-[400px] place-items-center rounded-[39px] border-white mt-20 ">
 									<img
 										src={winningNumber}
 										alt="winning_number"
 										className="w-[100px] sm:w-[150px]  absolute inset-x-0 top-24 mx-auto lg:flex  h-[100px] sm:h-[150px]  "
 									/>
-									<div className="flex mt-12 flex-row">
+									<div className=" mt-12 grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-4 xl:grid-cols-4  gap-4">
 										<div className="mr-4">
 											<div className="mt-1">
 												<input

@@ -31,7 +31,7 @@ const ChooseDraw = ({ showDraw, setShowDraw, setShowNumber }) => {
 		} else {
 			setLoading(true);
 			const provider = new ethers.providers.JsonRpcProvider(
-				`https://bsctestapi.terminet.io/rpc`
+				`https://data-seed-prebsc-2-s3.binance.org:8545`
 			);
 			const contract = new ethers.Contract(erc20Address, ERC20.abi, provider);
 			let approval = await contract.allowance(users.account, luckBlocksAddress);

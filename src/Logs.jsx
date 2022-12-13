@@ -10,7 +10,7 @@ const Logs = () => {
 
 	async function loadLogs() {
 		const provider = new ethers.providers.JsonRpcProvider(
-			`https://bsctestapi.terminet.io/rpc`
+			`https://data-seed-prebsc-2-s3.binance.org:8545`
 		);
 
 		const contract = new ethers.Contract(

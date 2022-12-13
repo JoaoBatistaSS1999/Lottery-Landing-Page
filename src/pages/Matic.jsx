@@ -1,11 +1,42 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import start from "../assets/utility/star.svg";
 import copy from "../assets/utility/copy.png";
 import winningNumber from "../assets/utility/winning-number.png";
 import bitcoin from "../assets/utility/bitcoin.png";
 import info from "../assets/utility/info.svg";
+import { ethers } from "ethers";
+import { maticLuckBlocksAddress } from "../.config";
+import MaticLuckBlocks from "../abi/KRSTMLuckblocks.json";
 
 const Matic = ({ setShowDraw }) => {
+	const [winner, setWinner] = useState("");
+	const [jackpotWinner, setJackpotWinner] = useState("");
+	const [ticketBought, setTicketBought] = useState(0);
+
+	async function getRaffleWinner() {
+		const provider = new ethers.providers.JsonRpcProvider(
+			`https://data-seed-prebsc-2-s3.binance.org:8545`
+		);
+		const contract = new ethers.Contract(
+			maticLuckBlocksAddress,
+			MaticLuckBlocks.abi,
+			provider
+		);
+		const lastWinner = await contract.ourLastWinner();
+		const lastJacpotWinner = await contract.ourLastJackpotWinner();
+		const totalTickets = await contract.amountOfRegisters();
+		console.log("ticket bought,", lastJacpotWinner);
+		const formatedTotalTicket =
+			(await ethers.utils.formatUnits(totalTickets.toString(), "ether")) * 1e18;
+		setTicketBought(formatedTotalTicket);
+
+		setWinner(lastWinner);
+		setJackpotWinner(lastJacpotWinner);
+	}
+
+	useEffect(() => {
+		getRaffleWinner();
+	}, []);
 	return (
 		<div className="w-full flex justify-center bg-gradient-to-b via-blue-900 from-[#010b18] to-[#596b87]  ">
 			<div className="max-w-screen-lg w-full flex flex-col  items-center bg-gradient-to-r from-[#000047] to-[#000047] via-purple-900   p-10 text-white rounded-[29px]">
@@ -32,7 +63,7 @@ const Matic = ({ setShowDraw }) => {
 
 							<a href="" className="mt-10">
 								<button className="flex items-center gap-2 bg-[#323965] h-[30px] w-[260px] px-4 py-3 rounded-[15px] text-sm">
-									{"0xadf9bFB903e34B25ceC47b6D1A468741fdB71F69".slice(0, 24) + "..."}
+									{`${winner}`.slice(0, 24) + "..."}
 									<img src={copy} alt="copy" className="h-[15px]" />
 								</button>
 							</a>
@@ -48,7 +79,7 @@ const Matic = ({ setShowDraw }) => {
 
 							<a href="" className="mt-10">
 								<button className="flex items-center gap-2 bg-[#323965] h-[30px] w-[260px] px-4 py-3 rounded-[15px] text-sm">
-									{"0xadf9bFB903e34B25ceC47b6D1A468741fdB71F69".slice(0, 24) + "..."}
+									{`${jackpotWinner}`.slice(0, 24) + "..."}
 									<img src={copy} alt="copy" className="h-[15px]" />
 								</button>
 							</a>
@@ -98,7 +129,7 @@ const Matic = ({ setShowDraw }) => {
 						<ul className="flex flex-col gap-2">
 							<li className="flex font-bold border-b border-[#5153AC]  text-xl text-[#5153AC] flex-col justify-center items-start py-7 px-5 w-80">
 								TOTAL TICKED BOUGHT:{" "}
-								<p className="font-bold text-xl text-white">15 865</p>
+								<p className="font-bold text-xl text-white">{ticketBought}</p>
 							</li>
 							<li className="flex font-bold border-b border-[#5153AC]  text-xl text-[#5153AC] flex-col justify-center items-start py-7 px-5 w-80">
 								PRICE OF TICKET{" "}

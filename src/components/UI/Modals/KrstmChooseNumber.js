@@ -70,7 +70,7 @@ const KrstmChooseNumber = ({ showNumber, setShowNumber, setShowSuccess }) => {
 		} else {
 			setLoading(true);
 			const provider = new ethers.providers.JsonRpcProvider(
-				`https://bsctestapi.terminet.io/rpc`
+				`https://data-seed-prebsc-2-s3.binance.org:8545`
 			);
 			const contract = new ethers.Contract(erc20Address, ERC20.abi, provider);
 			let approval = await contract.allowance(
@@ -132,7 +132,7 @@ const KrstmChooseNumber = ({ showNumber, setShowNumber, setShowSuccess }) => {
 				</Transition.Child>
 
 				<div className="fixed inset-0 z-10 overflow-y-auto">
-					<div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+					<div className="flex min-h-full lg:items-end xl:items-end justify-center p-4 text-center sm:items-center sm:p-0">
 						<Transition.Child
 							as={Fragment}
 							enter="ease-out duration-300"
