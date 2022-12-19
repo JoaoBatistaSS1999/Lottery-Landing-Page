@@ -10,7 +10,7 @@ const Success = ({ setShowSuccess, showSuccess }) => {
 
 	function goHome() {
 		setShowSuccess(false);
-		navigate("/");
+		// navigate("/");
 	}
 	return (
 		<Transition.Root show={showSuccess} as={Fragment}>

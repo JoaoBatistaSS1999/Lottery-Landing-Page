@@ -80,3 +80,7 @@ export const timeConverter = (UNIX_timestamp) => {
 export const bigNumberToNumber = (number) => {
 	return ethers.utils.formatUnits(number.toString(), "ether") * 1e18;
 };
+
+export const fourDecimalNumber = (number) => {
+	return number.toFixed(5);
+};

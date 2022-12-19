@@ -7,11 +7,14 @@ import info from "../assets/utility/info.svg";
 import { ethers } from "ethers";
 import { KrstmLuckBlocksAddress } from "../.config";
 import KrstmLuckBlocks from "../abi/KRSTMLuckblocks.json";
+import { fourDecimalNumber } from "../utils";
 
 const Krstm = ({ setShowDraw }) => {
 	const [winner, setWinner] = useState("");
 	const [jackpotWinner, setJackpotWinner] = useState("");
 	const [ticketBought, setTicketBought] = useState(0);
+	const [currentPriceWei, setCurrentPriceWei] = useState(0);
+	const [jackpotUsd, setJackpotUsd] = useState(0);
 
 	async function getRaffleWinner() {
 		const provider = new ethers.providers.JsonRpcProvider(
@@ -25,13 +28,27 @@ const Krstm = ({ setShowDraw }) => {
 		const lastWinner = await contract.ourLastWinner();
 		const lastJacpotWinner = await contract.ourLastJackpotWinner();
 		const totalTickets = await contract.amountOfRegisters();
+		const jpWei = await contract.currentJackpotInWei();
+		const jpUsd = await contract.getJackpotinUSD();
 		console.log("ticket bought,", lastJacpotWinner);
 		const formatedTotalTicket =
 			(await ethers.utils.formatUnits(totalTickets.toString(), "ether")) * 1e18;
+
+		const formatedJpWei = await ethers.utils.formatUnits(
+			jpWei.toString(),
+			"ether"
+		);
+		const formatedJpUsd = await ethers.utils.formatUnits(
+			jpUsd.toString(),
+			"ether"
+		);
 		setTicketBought(formatedTotalTicket);
 
 		setWinner(lastWinner);
 		setJackpotWinner(lastJacpotWinner);
+		setCurrentPriceWei(parseFloat(formatedJpWei));
+
+		setJackpotUsd(parseFloat(formatedJpUsd));
 	}
 
 	useEffect(() => {
@@ -44,7 +61,8 @@ const Krstm = ({ setShowDraw }) => {
 					CURRENT SELECTED CRYPTO JACKPOT ACCUMULATED CARD
 				</h2>
 				<div className="flex gap-2 lg:gap-10 mb-20 border-2 text-blue-400 border-blue-400 font-tcbbold rounded-[40px] py-5 px-10 text-3xl">
-					2.35 KRSTM <span className="text-3xl">~</span> 90.000 USD
+					{fourDecimalNumber(currentPriceWei)} KRSTM{" "}
+					<span className="text-3xl">~</span> {fourDecimalNumber(jackpotUsd)} USD
 				</div>
 				<h2 className="text-4xl font-bold italick font-tcbnormal mb-5">
 					LATEST WINNERS
