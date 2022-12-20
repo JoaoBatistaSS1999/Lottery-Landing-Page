@@ -115,8 +115,8 @@ const Krstm = ({ setShowDraw }) => {
 				</div>
 
 				<div>
-					<div className="flex flex-col sm:flex-row justify-between gap-2 w-full mt-16 ">
-						<div className="flex jutify-center gap-3 items-center">
+					<div className="flex flex-col sm:flex-col justify-between gap-2 w-full mt-16 ">
+						{/* <div className="flex jutify-center gap-3 items-center">
 							<img
 								src={bitcoin}
 								alt="bitcoin"
@@ -137,10 +137,15 @@ const Krstm = ({ setShowDraw }) => {
 									</div>
 								</div>
 							</div>
-						</div>
+						</div> */}
 
-						<div className="bg-gray-700 rounded-xl w-80 flex items-center justify-center">
-							chart
+						<div className="bg-gray-700 rounded-xl  flex items-center justify-center">
+							<iframe
+								src="https://teams.bogged.finance/embeds/chart?address=0x671078C0496Fa135a8c45fC7c9FA7B1501fD5146&chain=matic&charttype=candles&theme=bg:2C004FFF|bg2:24344EFF|primary:35B6DDFF|secondary:64057AFF|text:F3F6FBFF|text2:F3F6FBFF|candlesUp:08D26BFF|candlesDown:ff4976ff|chartLine:018CF0FF&defaultinterval=15m&showchartbutton=false"
+								frameborder="0"
+								height="400px"
+								width="100%"
+							></iframe>
 						</div>
 					</div>
 					<div className="flex flex-col sm:flex-row  mt-3 gap-4">
