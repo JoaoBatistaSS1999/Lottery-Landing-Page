@@ -56,6 +56,7 @@ const ChooseNumber = ({ showNumber, setShowNumber, setShowSuccess }) => {
 			console.log("event emmitted", event);
 			setShowNumber(false);
 			setShowSuccess(true);
+			document.getElementById("bodyscroll").style.overflow = "scroll";
 		}
 	}
 

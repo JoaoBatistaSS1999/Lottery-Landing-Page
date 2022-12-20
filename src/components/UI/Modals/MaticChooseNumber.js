@@ -65,6 +65,7 @@ const MaticChooseNumber = ({ showNumber, setShowNumber, setShowSuccess }) => {
 				console.log("event emmitted", event);
 				setShowNumber(false);
 				setShowSuccess(true);
+				document.getElementById("bodyscroll").style.overflow = "scroll";
 			} catch (error) {
 				console.log("metamas error", error.message);
 			}

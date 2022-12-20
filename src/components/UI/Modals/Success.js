@@ -10,6 +10,7 @@ const Success = ({ setShowSuccess, showSuccess }) => {
 
 	function goHome() {
 		setShowSuccess(false);
+		document.getElementById("bodyscroll").style.overflow = "scroll";
 		// navigate("/");
 	}
 	return (
@@ -70,7 +71,9 @@ const Success = ({ setShowSuccess, showSuccess }) => {
 										WAIT!
 									</div>
 									<button
-										onClick={goHome}
+										onClick={() => {
+											goHome();
+										}}
 										className="w-32 rounded-[39px] h-12 text-xl font-tcbregular italic text-white bg-[#F00FE8] bg-gradient-to-r from-[#13EBFD] "
 									>
 										BACK TO HOME

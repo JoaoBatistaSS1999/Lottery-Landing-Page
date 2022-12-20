@@ -61,9 +61,9 @@ const EthChooseNumber = ({ showNumber, setShowNumber, setShowSuccess }) => {
 				contract.on("LotteryLog");
 				let event = tx.events[0];
 				console.log("tx ", tx);
-				console.log("event emmitted", event);
 				setShowNumber(false);
 				setShowSuccess(true);
+				document.getElementById("bodyscroll").style.overflow = "scroll";
 			} catch (error) {
 				console.log("metamas error", error.message);
 			}
