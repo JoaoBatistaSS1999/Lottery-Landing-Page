@@ -157,7 +157,7 @@ const Krstm = ({ setShowDraw }) => {
 							<li className="flex font-bold border-b border-[#5153AC]  text-xl text-[#5153AC] flex-col justify-center items-start py-7 px-5 w-80">
 								PRICE OF TICKET{" "}
 								<p className="font-bold text-xl flex items-center gap-3 text-white">
-									0,5 BNB <img src={info} alt="info" className="w-4 h-4" />
+									200 USDC <img src={info} alt="info" className="w-4 h-4" />
 								</p>
 							</li>
 							<li className="flex font-bold  text-xl text-[#5153AC] flex-col justify-center items-start py-7 px-5 w-80">
@@ -176,7 +176,7 @@ const Krstm = ({ setShowDraw }) => {
 							<li className="flex font-bold border-b border-[#5153AC]  text-xl text-[#5153AC] flex-col justify-center items-start py-7 px-5 w-80">
 								PRICE ON EACH DRAW{" "}
 								<p className="font-bold text-xl flex items-center gap-3 text-white">
-									2,5 BNB <img src={info} alt="info" className="w-4 h-4" />
+									100 USDC <img src={info} alt="info" className="w-4 h-4" />
 								</p>
 							</li>
 							<li className="flex font-bold  text-xl text-[#5153AC] flex-col justify-center items-start py-7 px-5 w-80">
