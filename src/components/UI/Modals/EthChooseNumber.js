@@ -173,7 +173,7 @@ const EthChooseNumber = ({ showNumber, setShowNumber, setShowSuccess }) => {
 										alt="winning_number"
 										className="w-[100px] sm:w-[150px]  absolute inset-x-0 top-24 mx-auto lg:flex  h-[100px] sm:h-[150px]  "
 									/>
-									<div className=" mt-12 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3  gap-4">
+									<div className=" mt-12 grid grid-cols-3 sm:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3  gap-4">
 										<div className="">
 											<div className="mt-1">
 												<input
@@ -185,7 +185,7 @@ const EthChooseNumber = ({ showNumber, setShowNumber, setShowSuccess }) => {
 													onChange={(e) =>
 														updateFormInput({ ...formInput, firstNumber: e.target.value })
 													}
-													className="block bg-black border text-gray-300 text-center text-8xl h-36 border-[#B2FAFF] rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+													className="block bg-black border text-gray-300 text-center sm:text-[48px] text-[48px] lg:text-[96px] h-36 border-[#B2FAFF] rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
 												/>
 											</div>
 											<p className="mt-2 text-sm  text-[#8E90FF]">1 DRAW</p>
@@ -201,7 +201,7 @@ const EthChooseNumber = ({ showNumber, setShowNumber, setShowSuccess }) => {
 													onChange={(e) =>
 														updateFormInput({ ...formInput, secondNumber: e.target.value })
 													}
-													className="block  bg-black border text-gray-300 text-center text-8xl h-36 border-[#B2FAFF] rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+													className="block  bg-black border text-gray-300 text-center sm:text-[48px] text-[48px] lg:text-[96px] h-36 border-[#B2FAFF] rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
 												/>
 											</div>
 											<p className="mt-2 text-sm text-[#8E90FF]">2 DRAW</p>
@@ -217,7 +217,7 @@ const EthChooseNumber = ({ showNumber, setShowNumber, setShowSuccess }) => {
 													onChange={(e) =>
 														updateFormInput({ ...formInput, thirdNumber: e.target.value })
 													}
-													className="block   bg-black border text-gray-300 text-center text-8xl h-36 border-[#B2FAFF] rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+													className="block   bg-black border text-gray-300 text-center sm:text-[48px] text-[48px] lg:text-[96px] h-36 border-[#B2FAFF] rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
 												/>
 											</div>
 											<p className="mt-2 text-sm text-[#8E90FF]">3 DRAW</p>

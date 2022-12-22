@@ -121,11 +121,11 @@ function App() {
 					)}
 				</Router>
 
-				<div className=" bg-no-repeat bg-cover bg-people-group">
+				{/* <div className=" bg-no-repeat bg-cover bg-people-group">
 					<Banner />
 
 					<Logs />
-				</div>
+				</div> */}
 
 				<Partners />
 				<Footer />

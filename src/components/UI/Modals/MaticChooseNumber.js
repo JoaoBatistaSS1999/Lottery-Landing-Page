@@ -189,7 +189,7 @@ const MaticChooseNumber = ({ showNumber, setShowNumber, setShowSuccess }) => {
 													onChange={(e) =>
 														updateFormInput({ ...formInput, firstNumber: e.target.value })
 													}
-													className="block w-32 bg-black border text-gray-300 text-center text-8xl h-36 border-[#B2FAFF] rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+													className="block lg:w-32 bg-black border text-gray-300 text-center sm:text-[48px] text-[48px] lg:text-[96px] h-36 border-[#B2FAFF] rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
 												/>
 											</div>
 											<p className="mt-2 text-sm  text-[#8E90FF]">1 DRAW</p>
@@ -205,7 +205,7 @@ const MaticChooseNumber = ({ showNumber, setShowNumber, setShowSuccess }) => {
 													onChange={(e) =>
 														updateFormInput({ ...formInput, secondNumber: e.target.value })
 													}
-													className="block w-32 bg-black border text-gray-300 text-center text-8xl h-36 border-[#B2FAFF] rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+													className="block lg:w-32 bg-black border text-gray-300 text-center sm:text-[48px] text-[48px] lg:text-[96px] h-36 border-[#B2FAFF] rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
 												/>
 											</div>
 											<p className="mt-2 text-sm text-[#8E90FF]">2 DRAW</p>
@@ -221,7 +221,7 @@ const MaticChooseNumber = ({ showNumber, setShowNumber, setShowSuccess }) => {
 													onChange={(e) =>
 														updateFormInput({ ...formInput, thirdNumber: e.target.value })
 													}
-													className="block w-32 bg-black border text-gray-300 text-center text-8xl h-36 border-[#B2FAFF] rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+													className="block lg:w-32 bg-black border text-gray-300 text-center sm:text-[48px] text-[48px] lg:text-[96px] h-36 border-[#B2FAFF] rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
 												/>
 											</div>
 											<p className="mt-2 text-sm text-[#8E90FF]">3 DRAW</p>
@@ -237,7 +237,7 @@ const MaticChooseNumber = ({ showNumber, setShowNumber, setShowSuccess }) => {
 													onChange={(e) =>
 														updateFormInput({ ...formInput, fourthNumber: e.target.value })
 													}
-													className="block w-32 bg-black border text-gray-300 text-center text-8xl h-36 border-[#B2FAFF] rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+													className="block lg:w-32 bg-black border text-gray-300 text-center sm:text-[48px] text-[48px] lg:text-[96px] h-36 border-[#B2FAFF] rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
 												/>
 											</div>
 											<p className="mt-2 text-sm text-[#8E90FF]">4 DRAW</p>
