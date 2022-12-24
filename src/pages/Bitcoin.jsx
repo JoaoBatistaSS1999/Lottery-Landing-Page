@@ -8,7 +8,7 @@ import { ethers } from "ethers";
 import Web3Modal from "web3modal";
 import { luckBlocksAddress } from "../.config";
 import LuckBlocks from "../abi/LuckBlocks.json";
-import { fourDecimalNumber } from "../utils";
+import { calcWinningChaces, fourDecimalNumber } from "../utils";
 import Banner from "../Banner";
 import Logs from "../Logs";
 
@@ -204,7 +204,10 @@ const Ethereum = ({ setShowDraw }) => {
 							<ul className="flex flex-col gap-2">
 								<li className="flex font-bold border-b border-[#5153AC]  text-xl text-[#5153AC] flex-col justify-center items-start py-7 px-5 w-80">
 									LAST WINNER:{" "}
-									<p className="font-bold text-xl text-white">CLARCSON201941</p>
+									<p className="font-bold text-xl text-white">
+										{" "}
+										{`${winner}`.slice(0, 24) + "..."}
+									</p>
 								</li>
 								<li className="flex font-bold border-b border-[#5153AC]  text-xl text-[#5153AC] flex-col justify-center items-start py-7 px-5 w-80">
 									PRICE ON EACH DRAW{" "}
@@ -216,7 +219,8 @@ const Ethereum = ({ setShowDraw }) => {
 								<li className="flex font-bold  text-xl text-[#5153AC] flex-col justify-center items-start py-7 px-5 w-80">
 									YUOR WINNING CHANCES{" "}
 									<p className="font-bold text-xl flex items-center gap-3 text-white">
-										2.4% <img src={info} alt="info" className="w-4 h-4" />
+										{ticketBought != 0 ? calcWinningChaces(ticketBought) : "0"}%{" "}
+										<img src={info} alt="info" className="w-4 h-4" />
 									</p>
 								</li>
 							</ul>
