@@ -107,6 +107,18 @@ const EthChooseNumber = ({ showNumber, setShowNumber, setShowSuccess }) => {
 		}
 	}
 
+	function isNumberKey(e) {
+		const typed = +e.key;
+
+		if (!isNaN(typed)) e.preventDefault(); // Allow any non-number keys (backspace etc.)
+
+		if (+(e.target.value + typed) <= 25) {
+			e.target.value += typed;
+		} else {
+			console.log(`Number too big! Max is ${25}`);
+		}
+	}
+
 	async function approveToSpendUSDC() {
 		const web3modal = new Web3Modal();
 		const connection = await web3modal.connect();
@@ -192,10 +204,13 @@ const EthChooseNumber = ({ showNumber, setShowNumber, setShowSuccess }) => {
 											<div className="mt-1">
 												<input
 													type="number"
-													id="draw"
+													id="txthour"
 													max={25}
 													min={0}
 													value={formInput.firstNumber}
+													onKeyDown={(event) => {
+														isNumberKey(event);
+													}}
 													onChange={(e) =>
 														updateFormInput({ ...formInput, firstNumber: e.target.value })
 													}
@@ -211,6 +226,9 @@ const EthChooseNumber = ({ showNumber, setShowNumber, setShowSuccess }) => {
 													id="draw2"
 													max={25}
 													min={0}
+													onKeyDown={(event) => {
+														isNumberKey(event);
+													}}
 													value={formInput.secondNumber}
 													onChange={(e) => {
 														updateFormInput({ ...formInput, secondNumber: e.target.value });
@@ -227,6 +245,9 @@ const EthChooseNumber = ({ showNumber, setShowNumber, setShowSuccess }) => {
 													id="draw2"
 													max={25}
 													min={0}
+													onKeyDown={(event) => {
+														isNumberKey(event);
+													}}
 													value={formInput.thirdNumber}
 													onChange={(e) =>
 														updateFormInput({ ...formInput, thirdNumber: e.target.value })
