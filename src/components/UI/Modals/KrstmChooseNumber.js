@@ -12,6 +12,7 @@ import Swal from "sweetalert2";
 import { KrstmLuckBlocksAddress } from "../../../.config";
 import { erc20Address } from "../../../.config";
 import spinner from "../../../assets/images/spinner.svg";
+import { checkIfNumberisThesame } from "../../../utils";
 
 const KrstmChooseNumber = ({ showNumber, setShowNumber, setShowSuccess }) => {
 	const [loading, setLoading] = useState(false);
@@ -27,40 +28,50 @@ const KrstmChooseNumber = ({ showNumber, setShowNumber, setShowSuccess }) => {
 		} else {
 			setLoading(true);
 			const { firstNumber, secondNumber } = formInput;
-			const web3modal = new Web3Modal();
-			const connection = await web3modal.connect();
-			const provider = new ethers.providers.Web3Provider(connection);
-			const signer = provider.getSigner();
+			if (checkIfNumberisThesame(firstNumber, secondNumber) == true) {
+				Swal.fire({
+					title: "Danger",
+					text: "Failed: numbers has to be between 1 and 25 and not be equal.",
+					icon: "error",
+					showConfirmButton: false,
+					timer: 1500,
+				});
+			} else {
+				const web3modal = new Web3Modal();
+				const connection = await web3modal.connect();
+				const provider = new ethers.providers.Web3Provider(connection);
+				const signer = provider.getSigner();
 
-			// const ticketvalue = ethers.utils.parseUnits(ticketAmount, "ether");
-			try {
-				const contract = await new ethers.Contract(
-					KrstmLuckBlocksAddress,
-					KRSTMLuckBlocks.abi,
-					signer
-				);
+				// const ticketvalue = ethers.utils.parseUnits(ticketAmount, "ether");
+				try {
+					const contract = await new ethers.Contract(
+						KrstmLuckBlocksAddress,
+						KRSTMLuckBlocks.abi,
+						signer
+					);
 
-				// console.log("ticketProvider:::", ticketAmount);
+					// console.log("ticketProvider:::", ticketAmount);
 
-				console.log("ticketProvider", secondNumber);
+					console.log("ticketProvider", secondNumber);
 
-				let transaction = await contract.BuyTicket(
-					users.account,
-					firstNumber,
-					secondNumber
-				);
-				console.log("ticketProvider", transaction);
-				let tx = await transaction.wait();
-				setLoading(false);
-				contract.on("LotteryLog");
-				let event = tx.events[0];
-				console.log("tx ", tx);
-				console.log("event emmitted", event);
-				setShowNumber(false);
-				setShowSuccess(true);
-				document.getElementById("bodyscroll").style.overflow = "scroll";
-			} catch (error) {
-				console.log("metamas error", error);
+					let transaction = await contract.BuyTicket(
+						users.account,
+						firstNumber,
+						secondNumber
+					);
+					console.log("ticketProvider", transaction);
+					let tx = await transaction.wait();
+					setLoading(false);
+					contract.on("LotteryLog");
+					let event = tx.events[0];
+					console.log("tx ", tx);
+					console.log("event emmitted", event);
+					setShowNumber(false);
+					setShowSuccess(true);
+					document.getElementById("bodyscroll").style.overflow = "scroll";
+				} catch (error) {
+					console.log("metamas error", error);
+				}
 			}
 		}
 	}

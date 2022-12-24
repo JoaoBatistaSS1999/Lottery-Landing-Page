@@ -84,3 +84,56 @@ export const bigNumberToNumber = (number) => {
 export const fourDecimalNumber = (number) => {
 	return number.toFixed(5);
 };
+
+export const ethcheckIfNumberisThesame = (number1, number2, number3) => {
+	if (
+		number1 <= 25 &&
+		number1 > 0 &&
+		number2 <= 25 &&
+		number2 > 0 &&
+		number3 <= 25 &&
+		number3 > 0 &&
+		number1 != number2 &&
+		number1 != number3 &&
+		number2 != number3
+	) {
+		return false;
+	} else return true;
+};
+export const checkIfNumberisThesame = (number1, number2) => {
+	if (
+		number1 <= 25 &&
+		number1 > 0 &&
+		number2 <= 25 &&
+		number2 > 0 &&
+		number1 != number2
+	) {
+		return false;
+	} else return true;
+};
+
+export const maticCheckIfNumberisThesame = (
+	number1,
+	number2,
+	number3,
+	number4
+) => {
+	if (
+		number1 <= 25 &&
+		number1 > 0 &&
+		number2 <= 25 &&
+		number2 > 0 &&
+		number3 <= 25 &&
+		number3 > 0 &&
+		number4 <= 25 &&
+		number4 > 0 &&
+		number1 != number2 &&
+		number1 != number3 &&
+		number1 != number4 &&
+		number2 != number3 &&
+		number2 != number4 &&
+		number3 != number4
+	) {
+		return false;
+	} else return true;
+};

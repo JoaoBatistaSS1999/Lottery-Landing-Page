@@ -16,6 +16,7 @@ import {
 	luckBlocksAddress,
 } from "../../../.config";
 import spinner from "../../../assets/images/spinner.svg";
+import { compareto25, ethcheckIfNumberisThesame } from "../../../utils";
 
 const EthChooseNumber = ({ showNumber, setShowNumber, setShowSuccess }) => {
 	const [loading, setLoading] = useState(false);
@@ -32,40 +33,53 @@ const EthChooseNumber = ({ showNumber, setShowNumber, setShowSuccess }) => {
 		} else {
 			setLoading(true);
 			const { firstNumber, secondNumber, thirdNumber } = formInput;
-			const web3modal = new Web3Modal();
-			const connection = await web3modal.connect();
-			const provider = new ethers.providers.Web3Provider(connection);
-			const signer = provider.getSigner();
 
-			// const ticketvalue = ethers.utils.parseUnits(ticketAmount, "ether");
-			try {
-				const contract = await new ethers.Contract(
-					ethLuckBlocksAddress,
-					ETHLuckBlocks.abi,
-					signer
-				);
+			if (
+				ethcheckIfNumberisThesame(firstNumber, secondNumber, thirdNumber) == true
+			) {
+				Swal.fire({
+					title: "Danger",
+					text: "Failed: numbers has to be between 1 and 25 and not be equal.",
+					icon: "error",
+					showConfirmButton: false,
+					timer: 1500,
+				});
+			} else {
+				const web3modal = new Web3Modal();
+				const connection = await web3modal.connect();
+				const provider = new ethers.providers.Web3Provider(connection);
+				const signer = provider.getSigner();
 
-				// console.log("ticketProvider:::", ticketAmount);
+				// const ticketvalue = ethers.utils.parseUnits(ticketAmount, "ether");
+				try {
+					const contract = await new ethers.Contract(
+						ethLuckBlocksAddress,
+						ETHLuckBlocks.abi,
+						signer
+					);
 
-				console.log("ticketProvider", secondNumber);
+					// console.log("ticketProvider:::", ticketAmount);
 
-				let transaction = await contract.BuyTicket(
-					users.account,
-					firstNumber,
-					secondNumber,
-					thirdNumber
-				);
-				console.log("ticketProvider", transaction);
-				let tx = await transaction.wait();
-				setLoading(false);
-				contract.on("LotteryLog");
-				let event = tx.events[0];
-				console.log("tx ", tx);
-				setShowNumber(false);
-				setShowSuccess(true);
-				document.getElementById("bodyscroll").style.overflow = "scroll";
-			} catch (error) {
-				console.log("metamas error", error.message);
+					console.log("ticketProvider", secondNumber);
+
+					let transaction = await contract.BuyTicket(
+						users.account,
+						firstNumber,
+						secondNumber,
+						thirdNumber
+					);
+					console.log("ticketProvider", transaction);
+					let tx = await transaction.wait();
+					setLoading(false);
+					contract.on("LotteryLog");
+					let event = tx.events[0];
+					console.log("tx ", tx);
+					setShowNumber(false);
+					setShowSuccess(true);
+					document.getElementById("bodyscroll").style.overflow = "scroll";
+				} catch (error) {
+					console.log("metamas error", error.message);
+				}
 			}
 		}
 	}
@@ -185,7 +199,7 @@ const EthChooseNumber = ({ showNumber, setShowNumber, setShowSuccess }) => {
 													onChange={(e) =>
 														updateFormInput({ ...formInput, firstNumber: e.target.value })
 													}
-													className="block bg-black border text-gray-300 text-center sm:text-[48px] text-[48px] lg:text-[96px] h-36 border-[#B2FAFF] rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+													className="block w-full bg-black border text-gray-300 text-center sm:text-[48px] text-[48px] lg:text-[96px] h-36 border-[#B2FAFF] rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
 												/>
 											</div>
 											<p className="mt-2 text-sm  text-[#8E90FF]">1 DRAW</p>
@@ -198,10 +212,10 @@ const EthChooseNumber = ({ showNumber, setShowNumber, setShowSuccess }) => {
 													max={25}
 													min={0}
 													value={formInput.secondNumber}
-													onChange={(e) =>
-														updateFormInput({ ...formInput, secondNumber: e.target.value })
-													}
-													className="block  bg-black border text-gray-300 text-center sm:text-[48px] text-[48px] lg:text-[96px] h-36 border-[#B2FAFF] rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+													onChange={(e) => {
+														updateFormInput({ ...formInput, secondNumber: e.target.value });
+													}}
+													className="block w-full  bg-black border text-gray-300 text-center sm:text-[48px] text-[48px] lg:text-[96px] h-36 border-[#B2FAFF] rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
 												/>
 											</div>
 											<p className="mt-2 text-sm text-[#8E90FF]">2 DRAW</p>
@@ -217,7 +231,7 @@ const EthChooseNumber = ({ showNumber, setShowNumber, setShowSuccess }) => {
 													onChange={(e) =>
 														updateFormInput({ ...formInput, thirdNumber: e.target.value })
 													}
-													className="block   bg-black border text-gray-300 text-center sm:text-[48px] text-[48px] lg:text-[96px] h-36 border-[#B2FAFF] rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+													className="block w-full  bg-black border text-gray-300 text-center sm:text-[48px] text-[48px] lg:text-[96px] h-36 border-[#B2FAFF] rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
 												/>
 											</div>
 											<p className="mt-2 text-sm text-[#8E90FF]">3 DRAW</p>

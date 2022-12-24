@@ -15,6 +15,7 @@ import {
 } from "../../../.config";
 import { erc20Address } from "../../../.config";
 import spinner from "../../../assets/images/spinner.svg";
+import { maticCheckIfNumberisThesame } from "../../../utils";
 
 const MaticChooseNumber = ({ showNumber, setShowNumber, setShowSuccess }) => {
 	const [loading, setLoading] = useState(false);
@@ -32,42 +33,59 @@ const MaticChooseNumber = ({ showNumber, setShowNumber, setShowSuccess }) => {
 		} else {
 			setLoading(true);
 			const { firstNumber, secondNumber, thirdNumber, fourthNumber } = formInput;
-			const web3modal = new Web3Modal();
-			const connection = await web3modal.connect();
-			const provider = new ethers.providers.Web3Provider(connection);
-			const signer = provider.getSigner();
-
-			// const ticketvalue = ethers.utils.parseUnits(ticketAmount, "ether");
-			try {
-				const contract = await new ethers.Contract(
-					maticLuckBlocksAddress,
-					MaticLuckBlocks.abi,
-					signer
-				);
-
-				// console.log("ticketProvider:::", ticketAmount);
-
-				console.log("ticketProvider", secondNumber);
-
-				let transaction = await contract.BuyTicket(
-					users.account,
+			if (
+				maticCheckIfNumberisThesame(
 					firstNumber,
 					secondNumber,
 					thirdNumber,
 					fourthNumber
-				);
-				console.log("ticketProvider", transaction);
-				let tx = await transaction.wait();
-				setLoading(false);
-				contract.on("LotteryLog");
-				let event = tx.events[0];
-				console.log("tx ", tx);
-				console.log("event emmitted", event);
-				setShowNumber(false);
-				setShowSuccess(true);
-				document.getElementById("bodyscroll").style.overflow = "scroll";
-			} catch (error) {
-				console.log("metamas error", error.message);
+				) === true
+			) {
+				Swal.fire({
+					title: "Danger",
+					text: "Failed: numbers has to be between 1 and 25 and not be equal.",
+					icon: "error",
+					showConfirmButton: false,
+					timer: 1500,
+				});
+			} else {
+				const web3modal = new Web3Modal();
+				const connection = await web3modal.connect();
+				const provider = new ethers.providers.Web3Provider(connection);
+				const signer = provider.getSigner();
+
+				// const ticketvalue = ethers.utils.parseUnits(ticketAmount, "ether");
+				try {
+					const contract = await new ethers.Contract(
+						maticLuckBlocksAddress,
+						MaticLuckBlocks.abi,
+						signer
+					);
+
+					// console.log("ticketProvider:::", ticketAmount);
+
+					console.log("ticketProvider", secondNumber);
+
+					let transaction = await contract.BuyTicket(
+						users.account,
+						firstNumber,
+						secondNumber,
+						thirdNumber,
+						fourthNumber
+					);
+					console.log("ticketProvider", transaction);
+					let tx = await transaction.wait();
+					setLoading(false);
+					contract.on("LotteryLog");
+					let event = tx.events[0];
+					console.log("tx ", tx);
+					console.log("event emmitted", event);
+					setShowNumber(false);
+					setShowSuccess(true);
+					document.getElementById("bodyscroll").style.overflow = "scroll";
+				} catch (error) {
+					console.log("metamas error", error.message);
+				}
 			}
 		}
 	}
@@ -178,7 +196,7 @@ const MaticChooseNumber = ({ showNumber, setShowNumber, setShowSuccess }) => {
 										className="w-[100px] sm:w-[150px]  absolute inset-x-0 top-24 mx-auto lg:flex  h-[100px] sm:h-[150px]  "
 									/>
 									<div className=" mt-12 grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-4 xl:grid-cols-4  gap-4">
-										<div className="mr-4">
+										<div className="">
 											<div className="mt-1">
 												<input
 													type="number"
@@ -189,12 +207,12 @@ const MaticChooseNumber = ({ showNumber, setShowNumber, setShowSuccess }) => {
 													onChange={(e) =>
 														updateFormInput({ ...formInput, firstNumber: e.target.value })
 													}
-													className="block lg:w-32 bg-black border text-gray-300 text-center sm:text-[48px] text-[48px] lg:text-[96px] h-36 border-[#B2FAFF] rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+													className="block w-full bg-black border text-gray-300 text-center sm:text-[48px] text-[48px] lg:text-[96px] h-36 border-[#B2FAFF] rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
 												/>
 											</div>
 											<p className="mt-2 text-sm  text-[#8E90FF]">1 DRAW</p>
 										</div>
-										<div className="mr-4">
+										<div className="">
 											<div className="mt-1">
 												<input
 													type="number"
@@ -205,12 +223,12 @@ const MaticChooseNumber = ({ showNumber, setShowNumber, setShowSuccess }) => {
 													onChange={(e) =>
 														updateFormInput({ ...formInput, secondNumber: e.target.value })
 													}
-													className="block lg:w-32 bg-black border text-gray-300 text-center sm:text-[48px] text-[48px] lg:text-[96px] h-36 border-[#B2FAFF] rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+													className="block w-full bg-black border text-gray-300 text-center sm:text-[48px] text-[48px] lg:text-[96px] h-36 border-[#B2FAFF] rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
 												/>
 											</div>
 											<p className="mt-2 text-sm text-[#8E90FF]">2 DRAW</p>
 										</div>
-										<div className="mr-4">
+										<div className="">
 											<div className="mt-1">
 												<input
 													type="number"
@@ -221,7 +239,7 @@ const MaticChooseNumber = ({ showNumber, setShowNumber, setShowSuccess }) => {
 													onChange={(e) =>
 														updateFormInput({ ...formInput, thirdNumber: e.target.value })
 													}
-													className="block lg:w-32 bg-black border text-gray-300 text-center sm:text-[48px] text-[48px] lg:text-[96px] h-36 border-[#B2FAFF] rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+													className="block w-full bg-black border text-gray-300 text-center sm:text-[48px] text-[48px] lg:text-[96px] h-36 border-[#B2FAFF] rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
 												/>
 											</div>
 											<p className="mt-2 text-sm text-[#8E90FF]">3 DRAW</p>
@@ -237,7 +255,7 @@ const MaticChooseNumber = ({ showNumber, setShowNumber, setShowSuccess }) => {
 													onChange={(e) =>
 														updateFormInput({ ...formInput, fourthNumber: e.target.value })
 													}
-													className="block lg:w-32 bg-black border text-gray-300 text-center sm:text-[48px] text-[48px] lg:text-[96px] h-36 border-[#B2FAFF] rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+													className="block w-full bg-black border text-gray-300 text-center sm:text-[48px] text-[48px] lg:text-[96px] h-36 border-[#B2FAFF] rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
 												/>
 											</div>
 											<p className="mt-2 text-sm text-[#8E90FF]">4 DRAW</p>
