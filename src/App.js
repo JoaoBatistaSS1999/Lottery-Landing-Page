@@ -22,6 +22,7 @@ import Success from "./components/UI/Modals/Success";
 import { GlobalProvider } from "./context/GlobalState";
 import MaticChooseNumber from "./components/UI/Modals/MaticChooseNumber";
 import KrstmChooseNumber from "./components/UI/Modals/KrstmChooseNumber";
+import CarouselPage from "./components/carousel";
 
 // const hello = process.env.REACT_APP_TEST_VARIABLE;
 
@@ -41,6 +42,7 @@ function App() {
 						setShowDraw(true);
 					}}
 				/>
+				<CarouselPage />
 
 				<Router>
 					<Main />
