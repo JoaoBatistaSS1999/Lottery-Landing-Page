@@ -90,18 +90,6 @@ const MaticChooseNumber = ({ showNumber, setShowNumber, setShowSuccess }) => {
 		}
 	}
 
-	function isNumberKey(e) {
-		const typed = +e.key;
-
-		if (!isNaN(typed)) e.preventDefault(); // Allow any non-number keys (backspace etc.)
-
-		if (+(e.target.value + typed) <= 25) {
-			e.target.value += typed;
-		} else {
-			console.log(`Number too big! Max is ${25}`);
-		}
-	}
-
 	async function checkForApproval() {
 		if (users.account == "") {
 			console.log("please connect to metamask");
@@ -215,9 +203,6 @@ const MaticChooseNumber = ({ showNumber, setShowNumber, setShowSuccess }) => {
 													id="draw"
 													max={25}
 													min={0}
-													onKeyDown={(event) => {
-														isNumberKey(event);
-													}}
 													value={formInput.firstNumber}
 													onChange={(e) =>
 														updateFormInput({ ...formInput, firstNumber: e.target.value })
@@ -234,9 +219,6 @@ const MaticChooseNumber = ({ showNumber, setShowNumber, setShowSuccess }) => {
 													id="draw2"
 													max={25}
 													min={0}
-													onKeyDown={(event) => {
-														isNumberKey(event);
-													}}
 													value={formInput.secondNumber}
 													onChange={(e) =>
 														updateFormInput({ ...formInput, secondNumber: e.target.value })
@@ -253,9 +235,6 @@ const MaticChooseNumber = ({ showNumber, setShowNumber, setShowSuccess }) => {
 													id="draw2"
 													max={25}
 													min={0}
-													onKeyDown={(event) => {
-														isNumberKey(event);
-													}}
 													value={formInput.thirdNumber}
 													onChange={(e) =>
 														updateFormInput({ ...formInput, thirdNumber: e.target.value })
@@ -272,9 +251,6 @@ const MaticChooseNumber = ({ showNumber, setShowNumber, setShowSuccess }) => {
 													id="draw2"
 													max={25}
 													min={0}
-													onKeyDown={(event) => {
-														isNumberKey(event);
-													}}
 													value={formInput.fourthNumber}
 													onChange={(e) =>
 														updateFormInput({ ...formInput, fourthNumber: e.target.value })
