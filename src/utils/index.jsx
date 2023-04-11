@@ -137,7 +137,3 @@ export const maticCheckIfNumberisThesame = (
 		return false;
 	} else return true;
 };
-
-export const calcWinningChaces = (number) => {
-	return (1 / number) * 100;
-};
