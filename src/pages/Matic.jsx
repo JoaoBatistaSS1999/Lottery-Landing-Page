@@ -137,11 +137,14 @@ const Matic = ({ setShowDraw }) => {
 						<h3 className="rotate-[270deg] font-bold hidden lg:flex text-lg w-[100%] flex items-center justify-center p-2">
 							WINNING NUMBER
 						</h3>
-						<img
+						<div  className="animate-[turn_3s_ease-out_0s_infinite] w-[200px] h-[200px] rounded-full mt-2.5 mr-2.5 mb-0 ml-44">
+							<h2>20</h2>
+						</div>
+						{/* <img
 							src={winningNumber}
 							alt="winning_number"
 							className="w-[286px] hidden lg:flex  h-[286px] absolute translate-y-[-23%] translate-x-[270%] "
-						/>
+						/> */}
 					</div>
 
 					<div>
