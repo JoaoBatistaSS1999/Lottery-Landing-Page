@@ -13,9 +13,9 @@ const CarouselPage = () => {
 				className="bg-gradient-to-b via-blue-900 from-[#010b18] to-[#596b87] "
 				slide={false}
 			>
-				<MyTickets />
+				{/* <MyTickets /> */}
 				<Ticket2 />
-				<Tickets3 />
+				{/* <Tickets3 /> */}
 			</Carousel>
 		</div>
 	);
