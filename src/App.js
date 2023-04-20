@@ -42,7 +42,6 @@ function App() {
 						setShowDraw(true);
 					}}
 				/>
-				<CarouselPage />
 
 				<Router>
 					<Main />
@@ -122,7 +121,7 @@ function App() {
 						<Success showSuccess={showSuccess} setShowSuccess={setShowSuccess} />
 					)}
 				</Router>
-
+				<CarouselPage />
 				{/* <div className=" bg-no-repeat bg-cover bg-people-group">
 					<Banner />
 

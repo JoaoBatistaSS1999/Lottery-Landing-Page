@@ -15,7 +15,7 @@ const Ticket2 = () => {
 				</h2>
 			</div>
 			<div className="w-full grid grid-cols-4 gap-4 ">
-				<div className="w-full border col-start-2 sm:col-span-1  col-span-4 rounded-3xl p-4">
+				<div className="w-full border sm:col-span-1  col-span-4 rounded-3xl p-4">
 					<div className="flex text-white justify-between items-center mb-9">
 						<img
 							src={bitcoin}

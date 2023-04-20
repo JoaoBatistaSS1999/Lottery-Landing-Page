@@ -15,7 +15,7 @@ const CarouselPage = () => {
 			>
 				{/* <MyTickets /> */}
 				<Ticket2 />
-				{/* <Tickets3 /> */}
+				<Tickets3 />
 			</Carousel>
 		</div>
 	);
