@@ -19,6 +19,10 @@
 html {
   scroll-behavior: smooth;
 }
+/* .slick-slide {
+  margin: 0 27px;
+  height: auto;
+} */
 
 body {
   margin: 0;
